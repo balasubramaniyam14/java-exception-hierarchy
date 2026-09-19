@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Exception Hierarchy | College Assignment</title>
+<style>
+:root{--bg:#f6f8fc;--card:#fff;--text:#182033;--muted:#667085;--primary:#5b5ce2;--primary2:#7c3aed;--line:#d9def0;--dark:#101426}
+*{box-sizing:border-box;scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+header{position:sticky;top:0;z-index:10;background:rgba(16,20,38,.94);backdrop-filter:blur(12px);color:#fff}
+.nav{max-width:1150px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:15px 22px}
+.logo{font-weight:800;letter-spacing:.3px}.logo span{color:#a78bfa}
+nav a{color:#dfe3f5;text-decoration:none;margin-left:18px;font-size:.92rem}
+nav a:hover{color:#c4b5fd}
+.hero{background:linear-gradient(135deg,#101426,#27245f 55%,#5b21b6);color:#fff;padding:90px 22px 80px}
+.hero-inner{max-width:1150px;margin:auto}
+.badge{display:inline-block;padding:7px 12px;border:1px solid rgba(255,255,255,.25);border-radius:999px;background:rgba(255,255,255,.08);font-size:.82rem}
+h1{font-size:clamp(2.3rem,6vw,4.7rem);line-height:1.05;margin:22px 0 18px;max-width:850px}
+.hero p{max-width:760px;color:#dfe3ff;font-size:1.08rem}
+.btn{display:inline-block;margin-top:18px;padding:12px 18px;border-radius:10px;background:#fff;color:#30237a;text-decoration:none;font-weight:700}
+main{max-width:1050px;margin:auto;padding:55px 22px}
+section{margin-bottom:70px;scroll-margin-top:80px}
+.section-label{color:var(--primary);font-weight:800;text-transform:uppercase;font-size:.78rem;letter-spacing:1.5px}
+h2{font-size:2rem;margin:8px 0 15px}
+h3{margin-top:28px}
+.card{background:var(--card);border:1px solid #e4e7f0;border-radius:18px;padding:25px;box-shadow:0 10px 30px rgba(24,32,51,.06)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.compare{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden}
+.compare th,.compare td{padding:14px 16px;border-bottom:1px solid #e8eaf2;text-align:left;vertical-align:top}
+.compare th{background:#f0efff;color:#332b75}
+.diagram{display:flex;flex-direction:column;align-items:center;gap:10px;padding:25px;background:#fafaff;border:1px solid #e5e7f5;border-radius:18px;overflow:auto}
+.node{padding:12px 22px;border-radius:12px;background:#fff;border:2px solid #8b5cf6;min-width:210px;text-align:center;font-weight:800}
+.node.root{background:#312e81;color:#fff;border-color:#312e81}
+.node.error{border-color:#ef4444}.node.exception{border-color:#2563eb}
+.branch{display:flex;gap:55px;position:relative}
+.branch:before{content:"";position:absolute;top:-10px;left:25%;right:25%;border-top:2px solid #b9bed2}
+.arrow{color:#8b5cf6;font-weight:900;font-size:20px}
+.subbranch{display:flex;gap:22px}
+pre{background:#111827;color:#e5e7eb;padding:20px;border-radius:14px;overflow:auto;font-size:.9rem}
+code{font-family:Consolas,Monaco,monospace}
+.tag{display:inline-block;background:#eef2ff;color:#4338ca;padding:4px 9px;border-radius:999px;font-size:.78rem;font-weight:700;margin:3px}
+ul{padding-left:22px}
+footer{background:#101426;color:#cfd4e8;text-align:center;padding:30px 20px}
+@media(max-width:760px){nav a{display:none}.grid{grid-template-columns:1fr}.hero{padding-top:65px}.branch{gap:15px}.node{min-width:160px}.subbranch{flex-direction:column}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="logo">Java<span>Exceptions</span></div>
+    <nav>
+      <a href="#intro">Introduction</a><a href="#throwable">Throwable</a><a href="#difference">Error vs Exception</a>
+      <a href="#hierarchy">Hierarchy</a><a href="#types">Types</a><a href="#examples">Examples</a><a href="#conclusion">Conclusion</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+ <div class="hero-inner">
+  <span class="badge">College Assignment • Java Programming</span>
+  <h1>Exception Hierarchy in Java</h1>
+  <p>A simple interactive guide to exceptions, the Throwable class, errors, checked and unchecked exceptions, hierarchy, and practical Java examples.</p>
+  <a class="btn" href="#intro">Start Learning ↓</a>
+ </div>
+</section>
+
+<main>
+<section id="intro">
+ <div class="section-label">01 · Introduction</div>
+ <h2>Introduction to Exceptions</h2>
+ <div class="card">
+  <p>An <strong>exception</strong> is an unwanted event that occurs during program execution and interrupts the normal flow of instructions. Java provides an exception-handling mechanism so programs can detect and handle such situations gracefully.</p>
+  <div class="grid">
+   <div><h3>Why exceptions occur</h3><ul><li>Dividing a number by zero</li><li>Accessing an invalid array index</li><li>Using a null reference</li><li>Reading a missing file</li></ul></div>
+   <div><h3>Benefits</h3><ul><li>Prevents sudden program termination</li><li>Separates error-handling code</li><li>Improves program reliability</li><li>Helps developers diagnose problems</li></ul></div>
+  </div>
+ </div>
+</section>
+
+<section id="throwable">
+ <div class="section-label">02 · Key Term</div>
+ <h2>Throwable Class</h2>
+ <div class="card">
+  <p><strong>Throwable</strong> is the root class of Java's error and exception hierarchy. Objects that can be thrown by the Java runtime or by a program are derived from this class.</p>
+  <div>
+   <span class="tag">getMessage()</span><span class="tag">printStackTrace()</span><span class="tag">toString()</span>
+  </div>
+  <p>Its two major branches are <strong>Error</strong> and <strong>Exception</strong>.</p>
+ </div>
+</section>
+
+<section id="difference">
+ <div class="section-label">03 · Comparison</div>
+ <h2>Error vs Exception</h2>
+ <div class="card">
+ <table class="compare">
+  <tr><th>Feature</th><th>Error</th><th>Exception</th></tr>
+  <tr><td>Meaning</td><td>Serious problem generally associated with the JVM or system.</td><td>Condition that a program can often detect and handle.</td></tr>
+  <tr><td>Handling</td><td>Usually not intended to be handled by normal application code.</td><td>Can commonly be handled using try-catch, throws, etc.</td></tr>
+  <tr><td>Examples</td><td>OutOfMemoryError, StackOverflowError</td><td>IOException, SQLException, NullPointerException</td></tr>
+  <tr><td>Root</td><td>Throwable → Error</td><td>Throwable → Exception</td></tr>
+ </table>
+ </div>
+</section>
+
+<section id="hierarchy">
+ <div class="section-label">04 · Core Diagram</div>
+ <h2>Exception Hierarchy Diagram</h2>
+ <div class="card">
+  <div class="diagram">
+   <div class="node root">Throwable</div><div class="arrow">↓</div>
+   <div class="branch">
+    <div class="node error">Error</div>
+    <div class="node exception">Exception</div>
+   </div>
+   <div class="subbranch">
+    <div><div class="arrow">↓</div><div class="node error">OutOfMemoryError</div></div>
+    <div><div class="arrow">↓</div><div class="node error">StackOverflowError</div></div>
+    <div><div class="arrow">↓</div><div class="node exception">RuntimeException</div></div>
+   </div>
+   <div class="subbranch">
+    <div><div class="arrow">↓</div><div class="node exception">IOException</div></div>
+    <div><div class="arrow">↓</div><div class="node exception">SQLException</div></div>
+    <div><div class="arrow">↓</div><div class="node exception">NullPointerException</div></div>
+   </div>
+  </div>
+  <h3>Diagram Explanation</h3>
+  <p><strong>Throwable</strong> is at the top. It branches into <strong>Error</strong> and <strong>Exception</strong>. Error represents serious conditions that applications normally do not recover from. Exception represents conditions that application code can often handle. <strong>RuntimeException</strong> is an important subclass of Exception and contains many unchecked exceptions.</p>
+ </div>
+</section>
+
+<section id="types">
+ <div class="section-label">05 · Classification</div>
+ <h2>Checked and Unchecked Exceptions</h2>
+ <div class="grid">
+  <div class="card"><h3>Checked Exceptions</h3><p>Checked exceptions are checked by the compiler. A method generally must handle them with <code>try-catch</code> or declare them using <code>throws</code>.</p><p><strong>Examples:</strong> IOException, SQLException, FileNotFoundException.</p></div>
+  <div class="card"><h3>Unchecked Exceptions</h3><p>Unchecked exceptions are subclasses of <code>RuntimeException</code>. The compiler does not require explicit handling.</p><p><strong>Examples:</strong> NullPointerException, ArithmeticException, ArrayIndexOutOfBoundsException.</p></div>
+ </div>
+</section>
+
+<section id="examples">
+ <div class="section-label">06 · Practical Examples</div>
+ <h2>Java Examples</h2>
+ <div class="grid">
+  <div class="card">
+   <h3>ArithmeticException</h3>
+   <pre><code>public class Demo {
+    public static void main(String[] args) {
+        try {
+            int result = 10 / 0;
+            System.out.println(result);
+        } catch (ArithmeticException e) {
+            System.out.println("Cannot divide by zero.");
+        }
+    }
+}</code></pre>
+  </div>
+  <div class="card">
+   <h3>ArrayIndexOutOfBoundsException</h3>
+   <pre><code>public class Demo {
+    public static void main(String[] args) {
+        int[] numbers = {10, 20, 30};
+
+        try {
+            System.out.println(numbers[5]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Invalid array index.");
+        }
+    }
+}</code></pre>
+  </div>
+  <div class="card">
+   <h3>Checked Exception</h3>
+   <pre><code>import java.io.*;
+
+public class Demo {
+    public static void main(String[] args) {
+        try {
+            FileReader f = new FileReader("data.txt");
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.");
+        }
+    }
+}</code></pre>
+  </div>
+  <div class="card">
+   <h3>finally Block</h3>
+   <pre><code>try {
+    System.out.println("Processing...");
+} catch (Exception e) {
+    System.out.println("Exception handled");
+} finally {
+    System.out.println("This block executes.");
+}</code></pre>
+  </div>
+ </div>
+</section>
+
+<section id="conclusion">
+ <div class="section-label">07 · Summary</div>
+ <h2>Conclusion</h2>
+ <div class="card">
+  <p>Java's exception hierarchy provides a structured way to represent and handle abnormal conditions. Understanding <strong>Throwable, Error, Exception, RuntimeException, checked exceptions, and unchecked exceptions</strong> helps developers write safer and more maintainable programs.</p>
+  <p>Using <code>try</code>, <code>catch</code>, <code>finally</code>, <code>throw</code>, and <code>throws</code> appropriately allows programs to respond to exceptional situations without unnecessarily disrupting normal execution.</p>
+ </div>
+</section>
+</main>
+
+<footer>
+ <strong>Java Exception Hierarchy</strong><br>
+ College Assignment Website • Designed for academic presentation
+</footer>
+</body>
+</html>
